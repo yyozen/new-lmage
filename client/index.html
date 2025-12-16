@@ -61,20 +61,32 @@
       overflow-x: hidden;
     }
     
-    /* Loading Screen */
+    /* Loading Screen - 现代简约设计 */
     #loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #f8fafc;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      #loading-screen {
+        background: #0f172a;
+      }
+      .loader-text {
+        color: #f1f5f9 !important;
+      }
+      .loader-subtitle {
+        color: #94a3b8 !important;
+      }
     }
     
     #loading-screen.hidden {
@@ -82,13 +94,36 @@
       visibility: hidden;
     }
     
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    
     .loader {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(255, 255, 255, 0.2);
-      border-top-color: #ffffff;
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+    
+    .loader::before,
+    .loader::after {
+      content: '';
+      position: absolute;
       border-radius: 50%;
-      animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
+    
+    .loader::before {
+      inset: 0;
+      border: 3px solid #e2e8f0;
+    }
+    
+    .loader::after {
+      inset: 0;
+      border: 3px solid transparent;
+      border-top-color: #6366f1;
+      animation: spin 0.8s linear infinite;
     }
     
     @keyframes spin {
@@ -96,11 +131,20 @@
     }
     
     .loader-text {
-      margin-top: 24px;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      color: #1e293b;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .loader-subtitle {
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 500;
     }
     
     /* Prevent FOUC (Flash of Unstyled Content) */
@@ -117,8 +161,11 @@
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <div class="loader"></div>
-    <div class="loader-text">TG-Image</div>
+    <div class="loader-container">
+      <div class="loader"></div>
+      <div class="loader-text">TG-Image</div>
+      <div class="loader-subtitle">正在加载...</div>
+    </div>
   </div>
   
   <!-- React Root -->
