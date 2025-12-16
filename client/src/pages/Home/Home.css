@@ -1,0 +1,280 @@
+.home-page {
+  min-height: calc(100vh - var(--header-height) - 100px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+/* 上传区域 */
+.upload-section {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+
+body.dark-mode .upload-section {
+  background: var(--dark-card-bg);
+}
+
+.upload-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.upload-title {
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.upload-subtitle {
+  font-size: var(--font-lg);
+  color: var(--text-light);
+}
+
+body.dark-mode .upload-subtitle {
+  color: var(--dark-text-light);
+}
+
+/* 拖拽上传区域 */
+.dropzone {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--spacing-3xl);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--bg-color);
+}
+
+body.dark-mode .dropzone {
+  border-color: var(--dark-border);
+  background: var(--dark-bg);
+}
+
+.dropzone:hover,
+.dropzone.drag-active {
+  border-color: var(--primary-color);
+  background: rgba(var(--primary-light-rgb), 0.05);
+  transform: scale(1.02);
+}
+
+.dropzone-icon {
+  font-size: 64px;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing);
+}
+
+.dropzone-text {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+body.dark-mode .dropzone-text {
+  color: var(--dark-text);
+}
+
+.dropzone-hint {
+  font-size: var(--font-sm);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+body.dark-mode .dropzone-hint {
+  color: var(--dark-text-light);
+}
+
+.dropzone-hint-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.dropzone-hint-item i {
+  font-size: 18px;
+}
+
+/* 上传进度 */
+.upload-progress {
+  margin-top: var(--spacing-md);
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+}
+
+body.dark-mode .progress-bar-container {
+  background: var(--dark-border);
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--primary-gradient);
+  transition: width var(--transition);
+  border-radius: var(--radius-full);
+}
+
+.progress-text {
+  text-align: center;
+  font-size: var(--font-sm);
+  color: var(--text-light);
+}
+
+body.dark-mode .progress-text {
+  color: var(--dark-text-light);
+}
+
+/* 上传结果 */
+.upload-result {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-xl);
+  background: var(--bg-color);
+  border-radius: var(--radius);
+}
+
+body.dark-mode .upload-result {
+  background: var(--dark-bg);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.result-header h3 {
+  font-size: var(--font-2xl);
+  color: var(--success-color);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.result-header h3 i {
+  font-size: 32px;
+}
+
+.result-subtitle {
+  color: var(--text-light);
+}
+
+body.dark-mode .result-subtitle {
+  color: var(--dark-text-light);
+}
+
+/* 图片预览 */
+.image-preview {
+  max-width: 600px;
+  margin: 0 auto var(--spacing-xl);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 链接组 */
+.link-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  margin-bottom: var(--spacing-xl);
+}
+
+.link-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.link-item label {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+body.dark-mode .link-item label {
+  color: var(--dark-text);
+}
+
+.link-item label i {
+  font-size: 16px;
+}
+
+.copy-container {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.copy-container input {
+  flex: 1;
+}
+
+/* 操作按钮组 */
+.result-actions {
+  display: flex;
+  gap: var(--spacing);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .upload-section {
+    padding: var(--spacing-md);
+  }
+
+  .upload-title {
+    font-size: var(--font-2xl);
+  }
+
+  .dropzone {
+    padding: var(--spacing-xl);
+  }
+
+  .dropzone-icon {
+    font-size: 48px;
+  }
+
+  .dropzone-text {
+    font-size: var(--font-lg);
+  }
+
+  .dropzone-hint {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .copy-container {
+    flex-direction: column;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+}

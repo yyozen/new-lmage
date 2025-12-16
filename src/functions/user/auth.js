@@ -226,3 +226,135 @@ export async function getUserProfile(c) {
     return c.json({ error: '获取用户资料失败' }, 500);
   }
 }
+
+// 更新用户资料
+export async function updateUserProfile(c) {
+  try {
+    // 错误处理和遥测数据
+    await errorHandling(c);
+    telemetryData(c);
+
+    const user = c.get('user');
+    const { username: newUsername, email, bio } = await c.req.json();
+    
+    // 获取当前用户信息
+    const currentUsername = user.username;
+    const userJson = await c.env.users.get(`user:${currentUsername}`);
+    
+    if (!userJson) {
+      return c.json({ error: '用户不存在' }, 404);
+    }
+    
+    const userFull = JSON.parse(userJson);
+    
+    // 如果要更新用户名，检查新用户名是否已存在
+    if (newUsername && newUsername !== currentUsername) {
+      const existingUser = await c.env.users.get(`user:${newUsername}`);
+      if (existingUser) {
+        return c.json({ error: '用户名已存在' }, 409);
+      }
+    }
+    
+    // 如果要更新邮箱，检查新邮箱是否已被使用
+    if (email && email !== userFull.email) {
+      const emailKey = `email:${email}`;
+      const existingEmail = await c.env.users.get(emailKey);
+      if (existingEmail && existingEmail !== currentUsername) {
+        return c.json({ error: '邮箱已被注册' }, 409);
+      }
+      
+      // 删除旧邮箱映射
+      await c.env.users.delete(`email:${userFull.email}`);
+      // 创建新邮箱映射
+      await c.env.users.put(emailKey, newUsername || currentUsername);
+    }
+    
+    // 更新用户信息
+    const updatedUser = {
+      ...userFull,
+      username: newUsername || currentUsername,
+      email: email || userFull.email,
+      bio: bio !== undefined ? bio : userFull.bio,
+      updatedAt: Date.now()
+    };
+    
+    // 如果用户名改变了，需要更新所有相关的键
+    if (newUsername && newUsername !== currentUsername) {
+      // 删除旧用户名的键
+      await c.env.users.delete(`user:${currentUsername}`);
+      // 创建新用户名的键
+      await c.env.users.put(`user:${newUsername}`, JSON.stringify(updatedUser));
+      // 更新用户ID映射
+      await c.env.users.put(`userid:${userFull.id}`, newUsername);
+    } else {
+      // 只更新用户信息
+      await c.env.users.put(`user:${currentUsername}`, JSON.stringify(updatedUser));
+    }
+    
+    // 返回用户信息（不包含密码）
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    return c.json({ 
+      message: '资料更新成功', 
+      user: userWithoutPassword 
+    });
+  } catch (error) {
+    console.error('更新资料错误:', error);
+    return c.json({ error: '更新资料失败' }, 500);
+  }
+}
+
+// 修改密码
+export async function changePassword(c) {
+  try {
+    // 错误处理和遥测数据
+    await errorHandling(c);
+    telemetryData(c);
+
+    const user = c.get('user');
+    const { currentPassword, newPassword } = await c.req.json();
+    
+    // 验证输入
+    if (!currentPassword || !newPassword) {
+      return c.json({ error: '当前密码和新密码都是必填项' }, 400);
+    }
+    
+    // 验证新密码强度
+    if (newPassword.length < 6) {
+      return c.json({ error: '新密码长度至少为6个字符' }, 400);
+    }
+    
+    // 获取用户信息
+    const username = user.username;
+    const userJson = await c.env.users.get(`user:${username}`);
+    
+    if (!userJson) {
+      return c.json({ error: '用户不存在' }, 404);
+    }
+    
+    const userFull = JSON.parse(userJson);
+    
+    // 验证当前密码
+    const isPasswordValid = await verifyPassword(currentPassword, userFull.password);
+    if (!isPasswordValid) {
+      return c.json({ error: '当前密码错误' }, 401);
+    }
+    
+    // 哈希新密码
+    const hashedPassword = await hashPassword(newPassword);
+    
+    // 更新用户密码
+    const updatedUser = {
+      ...userFull,
+      password: hashedPassword,
+      updatedAt: Date.now()
+    };
+    
+    // 保存更新后的用户信息
+    await c.env.users.put(`user:${username}`, JSON.stringify(updatedUser));
+    
+    return c.json({ message: '密码修改成功' });
+  } catch (error) {
+    console.error('修改密码错误:', error);
+    return c.json({ error: '修改密码失败' }, 500);
+  }
+}

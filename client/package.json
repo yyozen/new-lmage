@@ -1,0 +1,56 @@
+{
+  "name": "tg-image-client",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "基于React的现代化图床服务 - 完全重构版",
+  "author": "",
+  "license": "AGPL-3.0-with-Commons-Clause",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.22.0",
+    "zustand": "^4.5.0",
+    "axios": "^1.6.7",
+    "react-query": "^3.39.3",
+    "framer-motion": "^11.0.5",
+    "react-hot-toast": "^2.4.1",
+    "react-dropzone": "^14.2.3",
+    "chart.js": "^4.4.1",
+    "react-chartjs-2": "^5.2.0",
+    "sortablejs": "^1.15.2",
+    "react-sortablejs": "^6.1.4",
+    "clsx": "^2.1.0",
+    "date-fns": "^3.3.1",
+    "clipboard": "^2.0.11",
+    "react-icons": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.1.4",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.2.5",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  },
+  "keywords": [
+    "图床",
+    "telegram",
+    "cloudflare",
+    "react",
+    "图片托管"
+  ]
+}

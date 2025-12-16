@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="基于Telegram的免费图片上传服务，简单高效的图片托管解决方案" />
+  <meta name="keywords" content="图床,Telegram,图片上传,免费图床,图片托管,React" />
+  <meta name="author" content="TG-Image" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="TG-Image | 免费图床" />
+  <meta property="og:description" content="基于Telegram的现代化云端图片托管服务" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/images/logo.svg" />
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="msapplication-TileColor" content="#4f46e5" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
+  <link rel="apple-touch-icon" href="/images/logo.svg" />
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  
+  <title>TG-Image | 免费图床</title>
+  
+  <!-- Inline Critical CSS for faster initial render -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    body {
+      margin: 0;
+      background-color: #f8fafc;
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+    
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    
+    #loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loader-text {
+      margin-top: 24px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Prevent FOUC (Flash of Unstyled Content) */
+    #root {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #root.loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <div class="loader-text">TG-Image</div>
+  </div>
+  
+  <!-- React Root -->
+  <div id="root"></div>
+  
+  <!-- React App Entry Point -->
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Loading Screen Script -->
+  <script>
+    // Hide loading screen when React app is ready
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        const root = document.getElementById('root');
+        
+        if (loadingScreen) {
+          loadingScreen.classList.add('hidden');
+        }
+        
+        if (root) {
+          root.classList.add('loaded');
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>

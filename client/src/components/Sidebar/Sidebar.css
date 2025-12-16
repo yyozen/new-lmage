@@ -1,0 +1,291 @@
+/* ========================================
+   底部导航栏 - 现代移动优先设计
+   ======================================== */
+
+.sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(40px) saturate(180%);
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-fixed);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.04);
+  padding: 0 max(env(safe-area-inset-right), 16px) env(safe-area-inset-bottom) max(env(safe-area-inset-left), 16px);
+}
+
+body.dark-mode .sidebar {
+  background: rgba(15, 23, 42, 0.95);
+  border-top-color: rgba(51, 65, 85, 0.6);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* 隐藏不需要的元素 */
+.sidebar-header,
+.sidebar-footer,
+.sidebar-toggle {
+  display: none;
+}
+
+/* ========================================
+   导航容器
+   ======================================== */
+
+.sidebar-nav {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0;
+  overflow: visible;
+}
+
+.sidebar-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+  width: 100%;
+}
+
+.sidebar-menu-bottom {
+  display: none;
+}
+
+/* ========================================
+   导航项
+   ======================================== */
+
+.sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  min-width: 64px;
+  cursor: pointer;
+}
+
+body.dark-mode .sidebar-item {
+  color: var(--dark-text-light);
+}
+
+/* 图标 */
+.sidebar-item i {
+  font-size: 24px;
+  min-width: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+/* 文本 */
+.sidebar-item span {
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+
+/* 悬停效果 */
+.sidebar-item:hover {
+  color: var(--primary-color);
+  transform: translateY(-4px);
+}
+
+body.dark-mode .sidebar-item:hover {
+  color: var(--primary-light);
+}
+
+.sidebar-item:hover i {
+  transform: scale(1.15);
+}
+
+.sidebar-item:hover span {
+  opacity: 1;
+}
+
+/* 激活状态 */
+.sidebar-item.active {
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 1), 
+    rgba(139, 92, 246, 1));
+  color: white;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  transform: translateY(-8px);
+}
+
+.sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.8), 
+    transparent);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.sidebar-item.active i {
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.sidebar-item.active span {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.sidebar-item.active:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5),
+              0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* 徽章 */
+.sidebar-badge {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 800;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.5);
+  z-index: 2;
+  animation: badgePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.sidebar-item.active .sidebar-badge {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   桌面端适配 - 保持底部导航
+   ======================================== */
+
+@media (min-width: 769px) {
+  .sidebar {
+    height: 80px;
+    padding: 0 32px env(safe-area-inset-bottom);
+  }
+
+  .sidebar-nav {
+    max-width: 800px;
+  }
+
+  .sidebar-item {
+    padding: 10px 20px;
+    min-width: 80px;
+    font-size: 0.75rem;
+  }
+
+  .sidebar-item i {
+    font-size: 26px;
+  }
+}
+
+/* ========================================
+   移动端优化
+   ======================================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    height: 68px;
+    padding: 0 8px calc(env(safe-area-inset-bottom) + 4px);
+  }
+
+  .sidebar-item {
+    padding: 6px 12px;
+    min-width: 56px;
+    font-size: 0.625rem;
+    gap: 2px;
+  }
+
+  .sidebar-item i {
+    font-size: 22px;
+  }
+
+  .sidebar-item span {
+    font-size: 0.625rem;
+  }
+
+  .sidebar-badge {
+    top: 2px;
+    right: 4px;
+    min-width: 18px;
+    height: 18px;
+    font-size: 0.5625rem;
+  }
+}
+
+/* 小屏幕 - 隐藏文字，只显示图标 */
+@media (max-width: 480px) {
+  .sidebar-item span {
+    display: none;
+  }
+
+  .sidebar-item {
+    padding: 8px;
+    min-width: 48px;
+    gap: 0;
+  }
+
+  .sidebar-item.active::before {
+    top: -8px;
+    width: 24px;
+    height: 3px;
+  }
+}
+
+/* ========================================
+   隐藏的元素
+   ======================================== */
+
+.sidebar-overlay {
+  display: none;
+}
+
+.sidebar.collapsed {
+  /* 底部导航不需要收起状态 */
+}

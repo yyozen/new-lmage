@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { serveStatic } from 'hono/cloudflare-workers';
 import { authenticatedUpload } from './functions/upload';
 import { fileHandler } from './functions/file/[id]';
-import { register, login, getCurrentUser, updateUserAvatar, getUserProfile } from './functions/user/auth';
+import { register, login, getCurrentUser, updateUserAvatar, getUserProfile, updateUserProfile, changePassword } from './functions/user/auth';
 import { getUserImages, deleteUserImage, updateImageInfo, searchUserImages } from './functions/user/images';
 import { getUserFavorites, addToFavorites, removeFromFavorites, checkFavoriteStatus, batchFavoriteOperation } from './functions/user/favorites';
 import { getUserTags, createTag, updateTag, deleteTag, batchTagOperation, getTagImages } from './functions/user/tags';
@@ -19,12 +19,24 @@ app.get('/file/:id', fileHandler);
 // 根路径重定向到index.html
 app.get('/', (c) => c.redirect('/index.html'));
 
+// 健康检查和版本信息
+app.get('/api/health', (c) => {
+  return c.json({
+    status: 'ok',
+    version: '2.0.0',
+    timestamp: Date.now(),
+    message: 'TG-Image React 版本运行正常'
+  });
+});
+
 // 用户认证相关API
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
 app.get('/api/auth/user', authMiddleware, getCurrentUser);
 app.get('/api/auth/profile', authMiddleware, getUserProfile);
+app.put('/api/auth/profile', authMiddleware, updateUserProfile);
 app.put('/api/auth/avatar', authMiddleware, updateUserAvatar);
+app.put('/api/auth/password', authMiddleware, changePassword);
 
 // 用户图片管理相关API
 app.get('/api/images', authMiddleware, getUserImages);
